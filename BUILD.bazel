@@ -3639,9 +3639,24 @@ config_setting(
     },
 )
 
+alias(
+    name = "windows",
+    actual = select({
+        ":windows_x64": ":windows_x64",
+        ":windows_x86": ":windows_x86",
+        "//conditions:default": ":windows_x64",  # Arbitrarily chosen from above.
+    }),
+    visibility = ["//visibility:public"],
+)
+
 config_setting(
-    name = "windows_x86_64",
+    name = "windows_x64",
     values = {"cpu": "x64_windows"},
+)
+
+config_setting(
+    name = "windows_x86",
+    values = {"cpu": "x64_x86_windows"},
 )
 
 config_setting(
@@ -3825,7 +3840,7 @@ selects.config_setting_group(
         ":macos_x86_64_legacy",
         ":tvos_x86_64",
         ":watchos_x86_64",
-        ":windows_x86_64",
+        ":windows",
         ":windows_x86_64_clang",
         ":windows_x86_64_mingw",
         ":windows_x86_64_msys",
